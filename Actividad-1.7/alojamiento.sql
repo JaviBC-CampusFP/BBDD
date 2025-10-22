@@ -7,7 +7,7 @@ CREATE TABLE Cliente(
     Nombre varchar(20),
     Apellidos varchar(40)
 );
- 
+
 CREATE TABLE Alojamiento(
 	numeroPuerta int AUTO_INCREMENT PRIMARY KEY,
     Ubicacion char(15),
@@ -128,10 +128,24 @@ INSERT INTO Alquila (numeroPuerta, DNI_cliente, Precio) VALUES
 (8,'60606060B',148.0),
 (9,'12345678A',255.0),
 (10,'23456789B',210.0);
+
 -- 1. Ver que clientes pertenecen a que piso y el precio
-SELECT DNI,Nombre,Apellidos, Alquila.numeroPuerta, Alquila.Precio FROM Cliente INNER JOIN Alquila ON DNI_Cliente = DNI;
--- 2. ver que pisos tienen 2 habitaciones y que clientes lo poseen
-SELECT Alojamiento.*,Alquila.DNI_Cliente FROM Alojamiento INNER JOIN Alquila ON Alojamiento.numeroPuerta = Alquila.numeroPuerta WHERE Alojamiento.Habitaciones = 2;
+SELECT DNI,Nombre,Apellidos, Alquila.numeroPuerta, Alquila.Precio FROM Cliente INNER JOIN
+Alquila ON DNI_cliente = DNI;
+
+-- 2. Ver que pisos tienen 2 habitaciones y que clientes lo poseen
+SELECT Alojamiento.*,Alquila.DNI_cliente FROM Alojamiento INNER JOIN
+Alquila ON Alojamiento.numeroPuerta = Alquila.numeroPuerta
+WHERE Alojamiento.Habitaciones = 2;
+
 -- 3. Ver que pisos tienen urbanización y terraza
-SELECT * FROM Cliente INNER JOIN Alquila ON Cliente.DNI = alquila.DNI_cliente INNER JOIN Alojamiento ON Alojamiento.numeroPuerta = Alquila.numeroPuerta WHERE Urbanizacion = 1 AND Terraza = 1;
--- 4.
+SELECT * FROM Cliente INNER JOIN
+Alquila ON Cliente.DNI = Alquila.DNI_cliente INNER JOIN
+Alojamiento ON Alojamiento.numeroPuerta = Alquila.numeroPuerta
+WHERE Urbanizacion = 1 AND Terraza = 1;
+
+-- 4.. Ver que clientes están con un alquiler mayor a X precio
+SELECT * FROM Cliente INNER JOIN
+Alquila ON Cliente.DNI = Alquila.DNI_cliente INNER JOIN
+Alojamiento ON Alojamiento.numeroPuerta = Alquila.numeroPuerta
+WHERE Precio > 200;
