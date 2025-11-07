@@ -1,39 +1,41 @@
-CREATE DATABASE HOTEL;
-USE HOTEL;
+CREATE DATABASE hotel;
+USE hotel;
+
 -- Tabla para los clientes
-CREATE TABLE Cliente (
-    ClienteID INT AUTO_INCREMENT PRIMARY KEY,
-    Nombre VARCHAR(50) NOT NULL,
-    Apellido VARCHAR(50) NOT NULL,
-    Telefono VARCHAR(15),
-    CorreoElectronico VARCHAR(100) UNIQUE
+CREATE TABLE cliente (
+    cliente_id INT AUTO_INCREMENT PRIMARY KEY,
+    nombre VARCHAR(50) NOT NULL,
+    apellido VARCHAR(50) NOT NULL,
+    telefono VARCHAR(15),
+    correo_electronico VARCHAR(100) UNIQUE
 );
 
 -- Tabla para las habitaciones
-CREATE TABLE Habitacion (
-    HabitacionID INT AUTO_INCREMENT PRIMARY KEY,
-    NumeroHabitacion INT NOT NULL UNIQUE,
-    TipoHabitacion ENUM('Individual', 'Doble', 'Suite') NOT NULL,
-    PrecioPorNoche DECIMAL(10, 2) NOT NULL
+CREATE TABLE habitacion (
+    habitacion_id INT AUTO_INCREMENT PRIMARY KEY,
+    numero_habitacion INT NOT NULL UNIQUE,
+    tipo_habitacion ENUM('Individual', 'Doble', 'Suite') NOT NULL,
+    precio_por_noche DECIMAL(10, 2) NOT NULL
 );
 
 -- Tabla para las reservas
-CREATE TABLE Reserva (
-    ReservaID INT AUTO_INCREMENT PRIMARY KEY,
-    ClienteID INT NOT NULL,
-    HabitacionID INT NOT NULL,
-    FechaInicio DATE NOT NULL,
-    FechaFin DATE NOT NULL,
-    CONSTRAINT FK_Reserva_Cliente FOREIGN KEY (ClienteID) REFERENCES Cliente(ClienteID),
-    CONSTRAINT FK_Reserva_Habitacion FOREIGN KEY (HabitacionID) REFERENCES Habitacion(HabitacionID),
-    CONSTRAINT CK_FechasReserva CHECK (FechaInicio < FechaFin)
+CREATE TABLE reserva (
+    reserva_id INT AUTO_INCREMENT PRIMARY KEY,
+    cliente_id INT NOT NULL,
+    habitacion_id INT NOT NULL,
+    fecha_inicio DATE NOT NULL,
+    fecha_fin DATE NOT NULL,
+    CONSTRAINT fk_reserva_cliente FOREIGN KEY (cliente_id) REFERENCES cliente(cliente_id),
+    CONSTRAINT fk_reserva_habitacion FOREIGN KEY (habitacion_id) REFERENCES habitacion(habitacion_id),
+    CONSTRAINT ck_fechas_reserva CHECK (fecha_inicio < fecha_fin)
 );
 
 -- Restricción adicional para evitar solapamientos de reservas en una misma habitación
-CREATE UNIQUE INDEX IDX_Habitacion_FechaReserva 
-ON Reserva (HabitacionID, FechaInicio, FechaFin);
+CREATE UNIQUE INDEX idx_habitacion_fecha_reserva 
+ON reserva (habitacion_id, fecha_inicio, fecha_fin);
 
-INSERT INTO Habitacion (NumeroHabitacion, TipoHabitacion, PrecioPorNoche) VALUES
+-- Insertar habitaciones
+INSERT INTO habitacion (numero_habitacion, tipo_habitacion, precio_por_noche) VALUES
 (101, 'Individual', 50.00),
 (102, 'Individual', 55.00),
 (201, 'Doble', 80.00),
@@ -45,21 +47,23 @@ INSERT INTO Habitacion (NumeroHabitacion, TipoHabitacion, PrecioPorNoche) VALUES
 (501, 'Suite', 170.00),
 (502, 'Doble', 95.00);
 
-INSERT INTO Cliente (Nombre, Apellido, Telefono, CorreoElectronico) VALUES
-('Peter', 'Parker', '555-1122', 'peter.parker@dailybugle.com'), -- Spider-Man
+-- Insertar clientes
+INSERT INTO cliente (nombre, apellido, telefono, correo_electronico) VALUES
+('Peter', 'Parker', '555-1122', 'peter.parker@dailybugle.com'),
 ('Dua', 'Lipa', '555-3344', 'dua.lipa@future.nostalgia'),
-('Harry', 'Potter', '555-5566', 'harry.potter@hogwarts.edu'), -- Harry Potter
+('Harry', 'Potter', '555-5566', 'harry.potter@hogwarts.edu'),
 ('Taylor', 'Swift', '555-7788', 'taylor.swift@1989.com'),
-('Wednesday', 'Addams', '555-9900', 'wednesday.addams@nevermore.edu'); -- Merlina Addams
+('Wednesday', 'Addams', '555-9900', 'wednesday.addams@nevermore.edu');
 
-INSERT INTO Reserva (ClienteID, HabitacionID, FechaInicio, FechaFin) VALUES
-(1, 1, '2024-12-01', '2024-12-05'), -- Juan reserva Habitación 101
-(2, 3, '2024-12-02', '2024-12-06'), -- María reserva Habitación 201
-(3, 5, '2024-12-05', '2024-12-10'), -- Carlos reserva Habitación 301
-(4, 2, '2024-12-03', '2024-12-07'), -- Ana reserva Habitación 102
-(5, 4, '2024-12-08', '2024-12-12'), -- Lucía reserva Habitación 202
-(1, 6, '2024-12-10', '2024-12-15'), -- Juan reserva Habitación 302
-(2, 7, '2024-12-11', '2024-12-13'), -- María reserva Habitación 401
-(3, 8, '2024-12-14', '2024-12-20'), -- Carlos reserva Habitación 402
-(4, 9, '2024-12-15', '2024-12-18'), -- Ana reserva Habitación 501
-(5, 10, '2024-12-20', '2024-12-25'); -- Lucía reserva Habitación 502
+-- Insertar reservas
+INSERT INTO reserva (cliente_id, habitacion_id, fecha_inicio, fecha_fin) VALUES
+(1, 1, '2024-12-01', '2024-12-05'),
+(2, 3, '2024-12-02', '2024-12-06'),
+(3, 5, '2024-12-05', '2024-12-10'),
+(4, 2, '2024-12-03', '2024-12-07'),
+(5, 4, '2024-12-08', '2024-12-12'),
+(1, 6, '2024-12-10', '2024-12-15'),
+(2, 7, '2024-12-11', '2024-12-13'),
+(3, 8, '2024-12-14', '2024-12-20'),
+(4, 9, '2024-12-15', '2024-12-18'),
+(5, 10, '2024-12-20', '2024-12-25');
