@@ -30,7 +30,7 @@ CREATE TABLE Reserva (
 );
 
 -- Restricción adicional para evitar solapamientos de reservas en una misma habitación
-CREATE UNIQUE INDEX IDX_Habitacion_FechaReserva 
+CREATE UNIQUE INDEX IDX_Habitacion_FechaReserva
 ON Reserva (HabitacionID, FechaInicio, FechaFin);
 
 INSERT INTO Habitacion (NumeroHabitacion, TipoHabitacion, PrecioPorNoche) VALUES
