@@ -1,9 +1,0 @@
-Prioridad de los operadores
-1. () Paréntesis
-2. * / % Multiplicación, división, módulo
-3. + - Suma y resta
-4. Concatenación (no hay en MySQL).
-5. = > < <= >= <> (todos los relacionales).
-6. NOT
-7. AND
-8. OR
